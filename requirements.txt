@@ -1,0 +1,28 @@
+# Core dependencies
+anthropic>=0.39.0
+python-dotenv>=1.0.0
+pydantic>=2.0.0
+requests>=2.31.0
+
+# External services
+notion-client>=2.2.1
+supabase>=2.3.4
+
+# Gmail integration
+google-api-python-client>=2.126.0
+google-auth-oauthlib>=1.2.0
+google-auth-httplib2>=0.2.0
+google-genai>=0.3.0
+
+# Data processing
+pandas>=2.0.0
+python-dateutil>=2.8.0
+beautifulsoup4>=4.13.3
+
+# Web scraping
+browser-use-sdk
+
+# Legacy (for backward compatibility - can be removed after migration)
+langgraph>=0.2.0
+langchain>=0.3.0
+langchain-google-genai>=2.0.0

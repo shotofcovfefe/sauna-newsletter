@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# Environment
+.env
+.env.local
+
+# Gmail OAuth credentials (NEVER commit these!)
+credentials.json
+token.json
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude Code (entire directory is local only)
+.claude/
+
+# Data
+data/*.json
+data/*.parquet
+data/runs/
+data/scraped/
+data/temp/
+data/drafts/
+!data/sauna_list_london_v1.csv
+
+# Tests
+tests/*.json
+tests/__pycache__/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
