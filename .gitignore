@@ -28,6 +28,9 @@ token.json
 # Claude Code (entire directory is local only)
 .claude/
 
+# Playwright
+.pw-profile/
+
 # Data
 data/*.json
 data/*.parquet
