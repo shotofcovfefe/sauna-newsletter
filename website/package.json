@@ -1,0 +1,35 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "London Sauna Map & Newsletter Signup",
+  "scripts": {
+    "dev": "next dev",
+    "build": "npm run build:geojson && next build",
+    "build:geojson": "tsx scripts/build-geojson.ts",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "@supabase/supabase-js": "^2.48.1",
+    "maplibre-gl": "^5.17.0",
+    "next": "^16.1.6",
+    "papaparse": "^5.5.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.0",
+    "@types/papaparse": "^5.5.2",
+    "@types/react": "^19.2.10",
+    "autoprefixer": "^10.4.24",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "^16.1.6",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3"
+  }
+}

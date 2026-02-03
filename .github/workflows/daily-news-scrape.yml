@@ -1,0 +1,84 @@
+name: Daily Sauna News Scraper
+
+on:
+  # Run daily at 6:00 AM UK time (UTC+0 in winter, UTC+1 in summer)
+  # Using 6:00 UTC for winter time, 5:00 UTC for BST (summer)
+  # Note: You may want to adjust this seasonally or use a single time
+  schedule:
+    # 6:00 AM GMT (winter) - runs at 6:00 UTC
+    - cron: '0 6 * * *'
+
+  # Allow manual triggering
+  workflow_dispatch:
+    inputs:
+      lookback_days:
+        description: 'Days to look back (1 for daily, 14 for seed)'
+        required: false
+        default: '1'
+      dry_run:
+        description: 'Dry run (test without saving)'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  scrape-news:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run news scraper
+        env:
+          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          if [ "${{ github.event.inputs.dry_run }}" == "true" ]; then
+            python src/scripts/scrape_daily_news.py --lookback ${{ github.event.inputs.lookback_days || '1' }} --dry-run
+          else
+            python src/scripts/scrape_daily_news.py --lookback ${{ github.event.inputs.lookback_days || '1' }}
+          fi
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scraper-logs-${{ github.run_number }}
+          path: |
+            *.log
+            src/scripts/*.log
+          retention-days: 7
+
+      - name: Notify on failure (optional)
+        if: failure()
+        run: |
+          echo "::warning::Daily news scraper failed. Check logs for details."
+
+  # Optional: Add a job to trigger Vercel revalidation after news is updated
+  # This ensures the website picks up new news immediately
+  trigger-revalidation:
+    needs: scrape-news
+    runs-on: ubuntu-latest
+    if: success()
+
+    steps:
+      - name: Trigger Vercel revalidation
+        run: |
+          echo "News scraping completed successfully"
+          # Optional: Call a webhook to trigger ISR revalidation
+          # curl -X POST https://your-domain.com/api/revalidate?secret=${{ secrets.REVALIDATE_SECRET }}
