@@ -48,7 +48,7 @@ class PerplexityService:
             "messages": [
                 {
                     "role": "system",
-                    "content": "You are a precise research assistant focused on London sauna events and news. Provide concise answers with clear source URLs and dates when available."
+                    "content": "You are a factual research assistant for London sauna news. Extract and quote relevant information EXACTLY as stated in sources. Do not paraphrase, interpret, or summarize - copy verbatim text. Include source URLs."
                 },
                 {
                     "role": "user",
@@ -105,23 +105,28 @@ class PerplexityService:
 
         # Add specific instructions
         prompt_parts.append("""
+CRITICAL: Extract information EXACTLY as stated in sources. Quote verbatim. Do NOT paraphrase or interpret.
+
 Please provide:
-1. A concise answer (2-4 sentences)
-2. Explicit source URLs (official websites, ticketing links, or reputable sources)
-3. Specific dates if available (event dates, opening dates, etc.)
-4. Categorize findings as: EVENT, NEWS, OPENING, CLOSURE, or OTHER
+1. Direct quotes or exact facts from sources (copy word-for-word)
+2. Source URLs for each fact
+3. Exact dates if stated (event dates, opening dates, etc.)
+4. Type: EVENT, NEWS, OPENING, CLOSURE, or OTHER
 
-For events, include:
-- Event name/type
-- Venue name
-- Date(s) and time(s)
-- Ticket/booking URL if available
+For events, extract verbatim:
+- Event name (exact wording)
+- Venue name (exact wording)
+- Date(s) and time(s) as written
+- Booking URL
 
-For news/openings/closures, include:
-- What changed
-- Where (venue/location)
-- When (date or timeframe)
+For news/openings/closures, extract verbatim:
+- What is stated (quote directly)
+- Where (venue/location as written)
+- When (date/timeframe as written)
 - Source URL
+
+ACCURACY RULE: If source says "runs five sites" do NOT interpret as "announces five-site expansion".
+Copy the exact text from the source.
 """)
 
         return "\n".join(prompt_parts)

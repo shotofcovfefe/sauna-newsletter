@@ -87,7 +87,12 @@ export default function NewsSidebar({ className = '' }: NewsSidebarProps) {
         }
 
         const data = await response.json()
-        setNews(data.news || [])
+        const items = (data.news || []).slice()
+        items.sort((a, b) =>
+          new Date(b.published_at || b.scraped_at).getTime() -
+          new Date(a.published_at || a.scraped_at).getTime()
+        )
+        setNews(items)
         setError(data.error || null)
       } catch (err) {
         console.error('Error fetching news:', err)
@@ -112,42 +117,40 @@ export default function NewsSidebar({ className = '' }: NewsSidebarProps) {
     <>
       {/* Desktop Sidebar - Fixed on LEFT */}
       <div
-        className={`hidden lg:block fixed top-0 left-0 w-80 xl:w-96 h-screen overflow-y-auto z-20 transition-transform duration-300 ${
+        className={`hidden lg:block absolute top-0 left-0 w-80 xl:w-96 h-full bg-white border-r border-gray-200 p-6 overflow-y-auto z-20 transition-transform duration-300 ${
           isVisible ? 'translate-x-0' : '-translate-x-full'
         } ${className}`}
         style={{ scrollbarWidth: 'thin' }}
       >
-        <div className="bg-white border-r border-gray-200 h-full p-6">
-          {/* Header */}
-          <div className="mb-6 pb-4 border-b border-gray-200">
-            <h2 className="text-base font-semibold text-gray-900">
-              Sauna News
-            </h2>
-          </div>
+        {/* Header */}
+        <div className="mb-6 pb-4 border-b border-gray-200">
+          <h2 className="text-base font-semibold text-gray-900">
+            Sauna News
+          </h2>
+        </div>
 
-          {/* News items */}
-          <div className="space-y-4">
-            {loading && news.length === 0 ? (
-              <>
-                <NewsCardSkeleton />
-                <NewsCardSkeleton />
-                <NewsCardSkeleton />
-              </>
-            ) : news.length > 0 ? (
-              news.map((item) => <NewsCard key={item.id} news={item} />)
-            ) : (
-              <div className="text-center py-8 text-gray-500">
-                <p className="text-sm">No recent news</p>
-              </div>
-            )}
-          </div>
+        {/* News items */}
+        <div className="space-y-4">
+          {loading && news.length === 0 ? (
+            <>
+              <NewsCardSkeleton />
+              <NewsCardSkeleton />
+              <NewsCardSkeleton />
+            </>
+          ) : news.length > 0 ? (
+            news.map((item) => <NewsCard key={item.id} news={item} />)
+          ) : (
+            <div className="text-center py-8 text-gray-500">
+              <p className="text-sm">No recent news</p>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Toggle Button - Desktop */}
       <button
         onClick={() => setIsVisible(!isVisible)}
-        className={`hidden lg:flex fixed top-4 z-20 items-center justify-center w-8 h-8 bg-white border border-gray-200 rounded-r-md shadow-sm hover:bg-gray-50 transition-all duration-300 ${
+        className={`hidden lg:flex absolute top-4 z-20 items-center justify-center w-8 h-8 bg-white border border-gray-200 rounded-r-md shadow-sm hover:bg-gray-50 transition-all duration-300 ${
           isVisible ? 'left-80 xl:left-96' : 'left-0'
         }`}
         aria-label={isVisible ? 'Hide news sidebar' : 'Show news sidebar'}

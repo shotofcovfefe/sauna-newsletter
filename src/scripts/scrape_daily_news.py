@@ -38,13 +38,13 @@ from src.models.types import SearchQuery, PerplexityResult
 class ExtractedNewsItem(BaseModel):
     """Schema for Gemini-extracted news item."""
 
-    title: str = Field(description="Clear, concise headline")
-    summary: str = Field(description="1-2 sentence summary")
+    title: str = Field(description="Headline extracted verbatim from source, no creative interpretation")
+    summary: str = Field(description="1-2 sentences copied EXACTLY from source text, no paraphrasing")
     source_url: Optional[str] = Field(description="Primary source URL")
     news_type: str = Field(description="Type: opening, closure, major_news, expansion, or other")
-    venue_name: Optional[str] = Field(description="Venue name if applicable")
-    published_date: Optional[str] = Field(description="Publication date YYYY-MM-DD if available")
-    relevance_score: float = Field(description="Relevance score 0.0-1.0")
+    venue_name: Optional[str] = Field(description="Venue name ONLY if explicitly stated in source")
+    published_date: Optional[str] = Field(description="Publication date YYYY-MM-DD ONLY if explicitly stated")
+    relevance_score: float = Field(description="Relevance 0.0-1.0: 1.0=major verified news, 0.8=interesting verified, <0.6=skip if any doubt")
 
 
 class NewsExtractionOutput(BaseModel):
@@ -123,19 +123,30 @@ def deduplicate_with_gemini(
     # Build the prompt
     system_prompt = """You are a news extraction specialist for a London sauna newsletter.
 
+CRITICAL: You must be 100% FACTUALLY ACCURATE. Never infer, assume, or creatively interpret information.
+
 Your task is to:
 1. Extract meaningful news items from Perplexity search results
 2. Deduplicate similar items (merge if same story, different sources)
 3. Filter out: promotional deals, generic events, spam, irrelevant content
 4. Focus on: openings, closures, expansions, major industry news, significant announcements
 
+ACCURACY REQUIREMENTS (CRITICAL):
+- ONLY extract information explicitly stated in the search results
+- Copy exact phrases from the source - DO NOT paraphrase or interpret
+- If information is ambiguous or unclear, mark relevance as <0.5 to skip it
+- Example: "runs five sites" ≠ "announces five-site expansion"
+- Example: "planning to open" ≠ "has opened"
+- When in doubt about accuracy, SKIP THE ITEM
+
 EXTRACTION RULES:
-- Each item must have a clear title and concise summary (1-2 sentences)
+- Title: Extract or quote directly from source headlines
+- Summary: Copy exact sentences from source (1-2 sentences). Quote verbatim.
 - Categorize as: opening, closure, major_news, expansion, or other
-- Extract venue name if applicable
+- Extract venue name ONLY if explicitly mentioned
 - Include primary source URL (prefer official sources)
-- Extract publication date if available (YYYY-MM-DD format)
-- Score relevance: 1.0 = major news, 0.8 = interesting, 0.5 = marginal, <0.5 = skip
+- Extract publication date ONLY if explicitly stated (YYYY-MM-DD format)
+- Score relevance: 1.0 = major verified news, 0.8 = interesting verified fact, 0.5 = uncertain, <0.5 = skip
 
 DEDUPLICATION:
 - If multiple results discuss the same story, merge into one item
@@ -143,7 +154,7 @@ DEDUPLICATION:
 - Combine URLs from multiple sources
 
 OUTPUT:
-Return 3-7 high-quality news items. Quality over quantity."""
+Return 3-7 high-quality, FACTUALLY ACCURATE news items. If unsure about accuracy, reduce relevance score below 0.6 to exclude it."""
 
     # Compile Perplexity results
     perplexity_text = "\n\n===\n\n".join(

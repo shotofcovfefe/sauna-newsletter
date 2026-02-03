@@ -5,7 +5,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'London Sauna Map - Find Your Perfect Heat',
+  title: 'The London Sauna. - Find Your Perfect Heat',
   description: 'Discover saunas, steam rooms, and thermal experiences across London. Browse by location, type, and amenities.',
   keywords: ['sauna', 'steam room', 'london', 'wellness', 'spa', 'heat therapy', 'cold plunge'],
 }

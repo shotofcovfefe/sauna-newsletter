@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react'
 import SaunaMap from '@/components/SaunaMap'
 import VenueCard from '@/components/VenueCard'
 import FilterPanel from '@/components/FilterPanel'
-import NewsletterSignup from '@/components/NewsletterSignup'
 import NewsSidebar from '@/components/NewsSidebar'
+import NewsletterSignup from '@/components/NewsletterSignup'
 import type { VenueGeoJSON, VenueFeature, FilterOptions } from '@/lib/types'
 
 interface MapPageProps {
@@ -14,7 +14,6 @@ interface MapPageProps {
 
 export default function MapPage({ geoJson }: MapPageProps) {
   const [selectedVenue, setSelectedVenue] = useState<VenueFeature | null>(null)
-  const [showNewsletter, setShowNewsletter] = useState(false)
   const [filters, setFilters] = useState<FilterOptions>({
     venueTypes: [],
     tags: [],
@@ -23,14 +22,6 @@ export default function MapPage({ geoJson }: MapPageProps) {
     hasColdImmersion: false,
   })
 
-  // Show newsletter modal after 15 seconds
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowNewsletter(true)
-    }, 15000)
-
-    return () => clearTimeout(timer)
-  }, [])
 
   const handleVenueSelect = (venue: VenueFeature) => {
     setSelectedVenue(venue)
@@ -40,8 +31,10 @@ export default function MapPage({ geoJson }: MapPageProps) {
     setSelectedVenue(null)
   }
 
-  const handleFilterChange = (newFilters: FilterOptions) => {
-    setFilters(newFilters)
+  const [showNewsletter, setShowNewsletter] = useState(false)
+
+  const handleFilterChange = (newFilters: Partial<FilterOptions>) => {
+    setFilters((prev) => ({ ...prev, ...newFilters }))
     // Close venue card when filters change
     setSelectedVenue(null)
   }
@@ -49,35 +42,66 @@ export default function MapPage({ geoJson }: MapPageProps) {
   return (
     <main className="min-h-screen bg-gray-50" suppressHydrationWarning>
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200" suppressHydrationWarning>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <header className="bg-white shadow-md" suppressHydrationWarning>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">London Sauna Map</h1>
-              <p className="text-sm text-gray-600 mt-1">
-                Discover {geoJson.features.length} saunas, steam rooms, and thermal experiences
-                across London
+              <h1 className="text-3xl font-extrabold text-primary-600 tracking-tight">
+                The London Sauna.
+              </h1>
+              <p className="text-base text-gray-700 mt-1">
+                Discover saunas, steam rooms, and thermal experiences across London
               </p>
             </div>
 
             {/* Stats */}
             <div className="hidden md:flex items-center gap-6">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-primary-600">{geoJson.features.length}</p>
-                <p className="text-xs text-gray-600">Venues</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-primary-600">
-                  {geoJson.features.filter((f) => f.properties.isWatchlist).length}
-                </p>
-                <p className="text-xs text-gray-600">Watchlist</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-primary-600">
-                  {geoJson.features.filter((f) => f.properties.coldImmersion).length}
-                </p>
-                <p className="text-xs text-gray-600">Cold Plunge</p>
-              </div>
+            <div className="text-center">
+              <p className="text-2xl font-bold text-primary-600">{geoJson.features.length}</p>
+              <p className="text-xs text-gray-600">Venues</p>
+            </div>
+            <div
+              className={`text-center cursor-pointer ${
+                filters.hasWatchlist ? 'text-primary-700' : ''
+              }`}
+              onClick={() => {
+                const sel = !filters.hasWatchlist
+                setFilters({
+                  venueTypes: [],
+                  tags: [],
+                  saunaTypes: [],
+                  hasWatchlist: sel,
+                  hasColdImmersion: false,
+                })
+                setSelectedVenue(null)
+              }}
+            >
+              <p className="text-2xl font-bold text-primary-600">
+                {geoJson.features.filter((f) => f.properties.isWatchlist).length}
+              </p>
+              <p className="text-xs text-gray-600">Recommended</p>
+            </div>
+            <div
+              className={`text-center cursor-pointer ${
+                filters.hasColdImmersion ? 'text-primary-700' : ''
+              }`}
+              onClick={() => {
+                const sel = !filters.hasColdImmersion
+                setFilters({
+                  venueTypes: [],
+                  tags: [],
+                  saunaTypes: [],
+                  hasWatchlist: false,
+                  hasColdImmersion: sel,
+                })
+                setSelectedVenue(null)
+              }}
+            >
+              <p className="text-2xl font-bold text-primary-600">
+                {geoJson.features.filter((f) => f.properties.coldImmersion).length}
+              </p>
+              <p className="text-xs text-gray-600">Cold Plunge</p>
+            </div>
             </div>
           </div>
         </div>
@@ -101,11 +125,6 @@ export default function MapPage({ geoJson }: MapPageProps) {
         {/* News Sidebar - Desktop: Left side, Mobile: Top carousel */}
         <NewsSidebar />
 
-        {/* Newsletter Signup Modal - Full screen overlay after 15s */}
-        <NewsletterSignup
-          isOpen={showNewsletter}
-          onClose={() => setShowNewsletter(false)}
-        />
       </div>
 
       {/* Footer */}
@@ -114,16 +133,27 @@ export default function MapPage({ geoJson }: MapPageProps) {
           <p className="text-center text-sm text-gray-600">
             Made with heat in London &middot;{' '}
             <a
-              href="https://github.com/yourusername/sauna-map"
+              href="https://buymeacoffee.com/placeholder"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary-600 hover:text-primary-700"
+              className="text-primary-600 hover:text-primary-700 underline"
             >
-              Contribute
-            </a>
+              support our work
+            </a>{' '}
+            &middot;{' '}
+            <button
+              onClick={() => setShowNewsletter(true)}
+              className="text-primary-600 hover:text-primary-700 underline"
+            >
+              newsletter
+            </button>
           </p>
         </div>
       </footer>
+      <NewsletterSignup
+        isOpen={showNewsletter}
+        onClose={() => setShowNewsletter(false)}
+      />
     </main>
   )
 }
