@@ -3586,6 +3586,38 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -0.303141,
+          51.512523
+        ]
+      },
+      "properties": {
+        "name": "Nuffield Health Ealing",
+        "address": "5th Floor, Ealing Broadway Centre, W5 5JY",
+        "description": "Centrally located club on the top floor of the Broadway Centre. Verified 2026: Includes a 20m pool, sauna, and steam room.",
+        "isWatchlist": false,
+        "dryCount": 1,
+        "steamCount": 1,
+        "saunaTypes": [
+          "[Finnish]"
+        ],
+        "tags": [
+          "[Gym",
+          "Wellness",
+          "Private",
+          "Athletic]"
+        ],
+        "venueType": "Gym / Leisure Centre",
+        "coldImmersion": "",
+        "hasShowers": true,
+        "url": "https://www.nuffieldhealth.com/gyms/ealing",
+        "postcode": "W5 5JY"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -0.222202,
           51.477063
         ]

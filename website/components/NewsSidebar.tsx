@@ -88,7 +88,7 @@ export default function NewsSidebar({ className = '' }: NewsSidebarProps) {
 
         const data = await response.json()
         const items = (data.news || []).slice()
-        items.sort((a, b) =>
+        items.sort((a: NewsItem, b: NewsItem) =>
           new Date(b.published_at || b.scraped_at).getTime() -
           new Date(a.published_at || a.scraped_at).getTime()
         )
