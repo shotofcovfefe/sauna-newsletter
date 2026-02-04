@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 import type { NewsItem, NewsResponse } from '@/lib/types'
 
 export const runtime = 'edge'
-export const revalidate = 1800 // Revalidate every 30 minutes
+export const revalidate = 86400 // Cache for 24 hours (purged on-demand via webhook after daily 6 AM scrape)
 
 export async function GET(request: Request) {
   try {
@@ -74,7 +74,7 @@ export async function GET(request: Request) {
       {
         status: 200,
         headers: {
-          'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=3600',
+          'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=86400',
         },
       }
     )

@@ -38,7 +38,7 @@ data/runs/
 data/scraped/
 data/temp/
 data/drafts/
-!data/sauna_list_london_v2.csv
+!data/sauna_list_london_v3.csv
 
 # Tests
 tests/*.json

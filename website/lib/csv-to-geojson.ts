@@ -175,7 +175,7 @@ export async function convertCsvToGeoJson(csvPath: string): Promise<VenueGeoJSON
  * Build-time script to generate GeoJSON from CSV
  */
 export async function buildGeoJson() {
-  const csvPath = path.join(process.cwd(), '..', 'data', 'sauna_list_london_v2.csv')
+  const csvPath = path.join(process.cwd(), '..', 'data', 'sauna_list_london_v3.csv')
   const outputPath = path.join(process.cwd(), 'public', 'data', 'saunas.geojson')
 
   console.log('Starting CSV to GeoJSON conversion...')

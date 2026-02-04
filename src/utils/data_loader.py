@@ -13,7 +13,7 @@ def load_watchlist() -> List[Venue]:
     Returns:
         List of Venue objects with watchlist_ind=True
     """
-    csv_path = Path(__file__).parent.parent.parent / "data" / "sauna_list_london_v2.csv"
+    csv_path = Path(__file__).parent.parent.parent / "data" / "sauna_list_london_v3.csv"
     return load_watchlist_venues(str(csv_path))
 
 

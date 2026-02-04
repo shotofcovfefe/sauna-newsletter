@@ -120,7 +120,7 @@ def build_initial_state(
 
 
 def run_newsletter_workflow(
-    watchlist_csv_path: str = "data/sauna_list_london_v2.csv",
+    watchlist_csv_path: str = "data/sauna_list_london_v3.csv",
     previous_issues_limit: int = 5,
     max_iterations: int = 3
 ) -> Dict[str, Any]:

@@ -103,10 +103,8 @@ export default function NewsSidebar({ className = '' }: NewsSidebarProps) {
     }
 
     fetchNews()
-
-    // Refresh every 30 minutes
-    const interval = setInterval(fetchNews, 30 * 60 * 1000)
-    return () => clearInterval(interval)
+    // No polling needed - news updates once daily and is cached for 24h
+    // Users will get fresh news on next page load after 6 AM update
   }, [])
 
   if (error && !loading && news.length === 0) {

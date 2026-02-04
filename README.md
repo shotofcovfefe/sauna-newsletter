@@ -77,7 +77,7 @@ The system uses **two distinct workflows** for better control and context isolat
 
 4. **Prepare watchlist data**
 
-   Ensure `data/sauna_list_london_v2.csv` exists with `watchlist_ind=1` for core venues.
+   Ensure `data/sauna_list_london_v3.csv` exists with `watchlist_ind=1` for core venues.
 
 ## Usage
 
@@ -157,7 +157,7 @@ sauna-newsletter/
 │   └── utils/           # Data loading and date utilities
 ├── data/
 │   ├── runs/            # Saved candidate runs (JSON)
-│   └── sauna_list_london_v2.csv  # Watchlist venues
+│   └── sauna_list_london_v3.csv  # Watchlist venues
 ├── gather.py            # Gather workflow CLI
 ├── draft.py             # Draft workflow CLI
 ├── main.py              # Combined workflow (optional)

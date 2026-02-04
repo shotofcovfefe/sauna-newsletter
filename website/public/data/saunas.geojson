@@ -6149,37 +6149,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -0.76266,
-          51.614035
-        ]
-      },
-      "properties": {
-        "name": "Wycombe Leisure Centre",
-        "address": "Handy Cross, High Wycombe HP11 1UP",
-        "description": "Features a large thermal suite with sauna and steam rooms.",
-        "isWatchlist": false,
-        "dryCount": 1,
-        "steamCount": 1,
-        "saunaTypes": [
-          "Finnish"
-        ],
-        "tags": [
-          "Public",
-          "Leisure",
-          "Wellness"
-        ],
-        "venueType": "Gym / Leisure Centre",
-        "coldImmersion": "",
-        "hasShowers": true,
-        "url": "https://www.everyoneactive.com/centre/wycombe-leisure-centre/",
-        "postcode": "HP11 1UP"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -0.129028,
           51.517169
         ]
@@ -6583,7 +6552,7 @@
           "Private",
           "Wellness"
         ],
-        "venueType": "Hotel",
+        "venueType": "Hotel Spa",
         "coldImmersion": "",
         "hasShowers": true,
         "url": "https://www.thebeaufort.com/",
@@ -7538,7 +7507,7 @@
           "Historic",
           "Traditional"
         ],
-        "venueType": "Hotel",
+        "venueType": "Hotel Spa",
         "coldImmersion": "",
         "hasShowers": true,
         "url": "https://www.warrenhouse.com/",
@@ -7957,6 +7926,136 @@
         "hasShowers": true,
         "url": "https://newdocklands.uk/",
         "postcode": "E16 4SA"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.109042,
+          51.454376
+        ]
+      },
+      "properties": {
+        "name": "Brockwell Lido",
+        "address": "Dulwich Rd, London SE24 0PA",
+        "description": "Brixton-based Olympic-sized swimming pool, gym, and all-day cafe. Sauna only available in winter.",
+        "isWatchlist": false,
+        "dryCount": 2,
+        "steamCount": 0,
+        "saunaTypes": [
+          "Finnish",
+          "Wood-fired"
+        ],
+        "tags": [
+          "Public",
+          "Outdoor",
+          "Leisure",
+          "Athletic"
+        ],
+        "venueType": "Gym / Leisure Centre",
+        "coldImmersion": "",
+        "hasShowers": true,
+        "url": "https://www.brockwelllido.com/facilities",
+        "postcode": "SE24 0PA"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.122672,
+          51.508749
+        ]
+      },
+      "properties": {
+        "name": "AIRE Ancient Baths",
+        "address": "2-3 Robert St, Covent Garden, London, WC2N 6BH",
+        "description": "A candlelit spa where you can literally bathe in red wine.",
+        "isWatchlist": false,
+        "dryCount": 1,
+        "steamCount": 1,
+        "saunaTypes": [],
+        "tags": [
+          "Luxury",
+          "Private",
+          "Wellness"
+        ],
+        "venueType": "Boutique Spa",
+        "coldImmersion": "",
+        "hasShowers": true,
+        "url": "https://beaire.com/en/aire-ancient-baths-london",
+        "postcode": "WC2N 6BH"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.091014,
+          51.534533
+        ]
+      },
+      "properties": {
+        "name": "Saunos",
+        "address": "Packington Bridge, Commercial Rd, London N1 7ED",
+        "description": "A floating, Scandinavian-inspired, barge-turned-sauna and wellness sanctuary. It offers 75–95°C, wood-panneled sauna sessions with one-way windows for city views, accompanied by 2°C cold plunge ice baths",
+        "isWatchlist": true,
+        "dryCount": 1,
+        "steamCount": 1,
+        "saunaTypes": [
+          "Finnish",
+          "Wood-fired"
+        ],
+        "tags": [
+          "Social",
+          "Wellness",
+          "Boutique",
+          "Contrast-Focus",
+          "High-Heat"
+        ],
+        "venueType": "Social Sauna",
+        "coldImmersion": "",
+        "hasShowers": true,
+        "url": "https://www.instagram.com/saunos_ldn/?hl=en",
+        "postcode": "N1 7ED"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.094309,
+          51.530198
+        ]
+      },
+      "properties": {
+        "name": "Banya no 1",
+        "address": "17 Micawber St, London N1 7TB",
+        "description": "An authentic Russian-style spa, with roasting hot saunas, ice baths, and leafy twig whipping.",
+        "isWatchlist": true,
+        "dryCount": 0,
+        "steamCount": 1,
+        "saunaTypes": [
+          "Finnish",
+          "Wood-fired"
+        ],
+        "tags": [
+          "Social",
+          "Wellness",
+          "Boutique",
+          "Contrast-Focus",
+          "High-Heat"
+        ],
+        "venueType": "Social Sauna",
+        "coldImmersion": "1 cold plunge pool, a plunge bucket, and a pool for maximum contras",
+        "hasShowers": false,
+        "url": "https://gobanya.co.uk/",
+        "postcode": "N1 7TB"
       }
     }
   ]

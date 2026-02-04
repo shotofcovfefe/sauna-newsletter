@@ -69,7 +69,7 @@ jobs:
         run: |
           echo "::warning::Daily news scraper failed. Check logs for details."
 
-  # Optional: Add a job to trigger Vercel revalidation after news is updated
+  # Trigger on-demand revalidation after news is updated
   # This ensures the website picks up new news immediately
   trigger-revalidation:
     needs: scrape-news
@@ -77,8 +77,23 @@ jobs:
     if: success()
 
     steps:
-      - name: Trigger Vercel revalidation
+      - name: Trigger cache revalidation
         run: |
-          echo "News scraping completed successfully"
-          # Optional: Call a webhook to trigger ISR revalidation
-          # curl -X POST https://your-domain.com/api/revalidate?secret=${{ secrets.REVALIDATE_SECRET }}
+          echo "News scraping completed successfully, triggering cache revalidation..."
+
+          # Call revalidation endpoint
+          RESPONSE=$(curl -X POST -w "\n%{http_code}" -s \
+            "${{ secrets.WEBSITE_URL }}/api/revalidate?secret=${{ secrets.REVALIDATE_SECRET }}")
+
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n-1)
+
+          echo "Response: $BODY"
+          echo "HTTP Code: $HTTP_CODE"
+
+          if [ "$HTTP_CODE" -eq 200 ]; then
+            echo "✓ Cache revalidated successfully"
+          else
+            echo "✗ Cache revalidation failed (HTTP $HTTP_CODE)"
+            exit 1
+          fi
