@@ -50,7 +50,7 @@ def test_data_files():
     """Test data files."""
     print("Testing data files...")
 
-    csv_path = "data/sauna_list_london_v1.csv"
+    csv_path = "data/sauna_list_london_v2.csv"
 
     if not os.path.exists(csv_path):
         print(f"  ✗ {csv_path}: NOT FOUND")

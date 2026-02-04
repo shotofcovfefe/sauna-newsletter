@@ -27,7 +27,7 @@ An interactive map of saunas, steam rooms, and thermal experiences across London
 ### Prerequisites
 
 - Node.js 18+ and npm
-- The parent project's CSV data at `../data/sauna_list_london_v1.csv`
+- The parent project's CSV data at `../data/sauna_list_london_v2.csv`
 
 ### Installation
 
@@ -164,7 +164,7 @@ primary: {
 
 To update venue data:
 
-1. Update `../data/sauna_list_london_v1.csv`
+1. Update `../data/sauna_list_london_v2.csv`
 2. Rebuild the GeoJSON:
    ```bash
    npm run build:geojson

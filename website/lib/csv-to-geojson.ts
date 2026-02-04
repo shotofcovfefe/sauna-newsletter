@@ -42,17 +42,31 @@ async function geocodePostcode(postcode: string): Promise<[number, number] | nul
 
 /**
  * Parse JSON-like arrays from CSV strings
+ * Handles formats like: [Rock, Aromatherapy, Crystal, Salt]
  */
 function parseArrayField(field: string): string[] {
   if (!field || field.trim() === '') return []
 
   try {
-    // Remove quotes and parse as JSON
+    // First try to parse as valid JSON (e.g., ["Rock", "Aromatherapy"])
     const cleaned = field.trim().replace(/^"|"$/g, '')
     return JSON.parse(cleaned)
   } catch {
-    // Fallback: split by comma if JSON parse fails
-    return field.split(',').map(s => s.trim()).filter(Boolean)
+    // Fallback: handle bracket-delimited arrays without quotes
+    // e.g., [Rock, Aromatherapy, Crystal, Salt]
+    let processed = field.trim()
+
+    // Remove outer quotes if present
+    processed = processed.replace(/^"|"$/g, '')
+
+    // Remove square brackets
+    processed = processed.replace(/^\[|\]$/g, '')
+
+    // Split by comma and clean up each item
+    return processed
+      .split(',')
+      .map(s => s.trim())
+      .filter(Boolean)
   }
 }
 
@@ -161,7 +175,7 @@ export async function convertCsvToGeoJson(csvPath: string): Promise<VenueGeoJSON
  * Build-time script to generate GeoJSON from CSV
  */
 export async function buildGeoJson() {
-  const csvPath = path.join(process.cwd(), '..', 'data', 'sauna_list_london_v1.csv')
+  const csvPath = path.join(process.cwd(), '..', 'data', 'sauna_list_london_v2.csv')
   const outputPath = path.join(process.cwd(), 'public', 'data', 'saunas.geojson')
 
   console.log('Starting CSV to GeoJSON conversion...')
